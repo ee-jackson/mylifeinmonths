@@ -8,7 +8,7 @@ library(extrafont)
 library(hrbrthemes)
 library(prismatic)
 
-library(extrafont) 
+library(extrafont)
 loadfonts(device = "pdf", quiet = TRUE)
 
 library(showtext)
@@ -31,7 +31,7 @@ life_data <- expand_grid(
   arrange(year, month) %>%
   group_by(year) %>%
   mutate(month_number = row_number()) %>%
-  ungroup() %>% 
+  ungroup() %>%
   filter(!(year == birth_year & month_number < birth_month)) %>%
   filter(!(year == current_year & month_number > current_month)) # If you want to exclude after the current month - I didn't, because it looked weird!
 
@@ -84,15 +84,15 @@ background_colour <- "#F7F7F7"
 
 life_in_months_base <- life_data %>%
   count(fill_colour) %>% ## the count of each era is the number of months in that era
-  add_row(fill_colour = background_colour, 
+  add_row(fill_colour = background_colour,
     n = birth_month - current_month -1) %>%
   dplyr::arrange(-dplyr::row_number()) %>%
   ggplot(aes(fill = fill_colour, values = n)) +
 
-  geom_waffle(color = background_colour, n_rows = 12, size = 1, flip=TRUE) + 
+  geom_waffle(color = background_colour, n_rows = 12, size = 1, flip=TRUE) +
   ## make each row a year/12 months
   coord_equal() +
-  scale_x_continuous(limits = c(-1, 19)) + 
+  scale_x_continuous(limits = c(-1, 19)) +
   scale_fill_identity() +
   labs(y = NULL, x = NULL) +
   theme_ipsum(grid = "") +
@@ -119,21 +119,22 @@ initial_segment <- function(x, xend, y, yend, colour = initial_annotations_colou
 }
 
 life_in_months_initial_annotations <- life_in_months_base +
+  initial_text(x = 0.5, y = -1, label = paste0("Last updated ", Sys.Date()), size = annotation_base_size * 0.8, hjust = 0) +
   initial_text(x = 6.5, y = current_age + 1, label = "1 year") +
-  initial_segment(x = 1, xend = 5, 
+  initial_segment(x = 1, xend = 5,
     y = current_age + 1, yend = current_age + 1) +
-  initial_segment(x = 1, xend = 1, 
+  initial_segment(x = 1, xend = 1,
     y = current_age + 1 - 0.25, yend = current_age + 1 + 0.25) +
-  initial_segment(x = 8, xend = 12, 
+  initial_segment(x = 8, xend = 12,
     y = current_age + 1, yend = current_age + 1) +
-  initial_segment(x = 12, xend = 12, y = current_age + 1 - 0.25, 
+  initial_segment(x = 12, xend = 12, y = current_age + 1 - 0.25,
     yend = current_age + 1 + 0.25) +
   initial_text(x = -0.25, y = current_age - 0.5, label = "age", size = annotation_base_size * 0.8, hjust = 0, angle = 90) +
-  geom_segment(aes(x = -0.25, xend = -0.25, y = current_age - 1, 
+  geom_segment(aes(x = -0.25, xend = -0.25, y = current_age - 1,
     yend = current_age - 3), arrow = arrow(length = unit(0.0175, "npc")), colour = initial_annotations_colour) +
   initial_text(x = 13.5, y = current_age + 2, label = "1 square = 1 month", size = annotation_base_size * 0.8, lineheight = annotation_lineheight, hjust = 0.4) +
   geom_curve(aes(x = 14, xend = 12, y = current_age + 1.5, yend = current_age), arrow = arrow(length = unit(0.0175, "npc")), curvature = -0.3, colour = initial_annotations_colour) +
-  annotate("text", x = 1, y = current_age + 4, label = "my life\nin months:", hjust = 0, family = "IBM Plex Mono", fontface = "bold", lineheight = 0.25, size = annotation_base_size * 1.5)
+  annotate("text", x = 0.5, y = current_age + 4, label = "my life\nin months:", hjust = 0, family = "IBM Plex Mono", fontface = "bold", lineheight = 0.25, size = annotation_base_size * 1.5)
 
 
 # "Role" annotations ----
@@ -146,14 +147,14 @@ role_text <- function(x, y = role_annotations_y, label, size = roles_size, ...) 
 }
 
 life_in_months_role_annotations <- life_in_months_initial_annotations +
-  role_text(x = 13, y = 23, label = "childhood") +
-  role_text(x = 13, y = 13, label = "highschool") +
-  role_text(x = 13, y = 7, label = "undergrad") +
-  role_text(x = 13, y = 5, label = "masters") +
-  role_text(x = 13, y = 4, label = "research assistant", lineheight = annotation_lineheight - 0.25) +
-  role_text(x = 13, y = 3, label = "data analyst", lineheight = annotation_lineheight - 0.25) +
-  role_text(x = 13, y = 1.5, label = "PhD", lineheight = annotation_lineheight - 0.25)
+  role_text(x = 13, y = 24, label = "childhood") +
+  role_text(x = 13, y = 14, label = "highschool") +
+  role_text(x = 13, y = 8, label = "undergrad") +
+  role_text(x = 13, y = 6, label = "masters") +
+  role_text(x = 13, y = 5, label = "research assistant", lineheight = annotation_lineheight - 0.25) +
+  role_text(x = 13, y = 4, label = "data analyst", lineheight = annotation_lineheight - 0.25) +
+  role_text(x = 13, y = 2, label = "PhD", lineheight = annotation_lineheight - 0.25)
 
 # Save final plot ----
 
-ggsave("life_in_months.png", plot = life_in_months_role_annotations, device = "png", type = "cairo", width = 15, height = 22.4, dpi = 300)  
+ggsave("life_in_months.png", plot = life_in_months_role_annotations, device = "png", type = "cairo", width = 15, height = 22.4, dpi = 300)
