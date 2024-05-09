@@ -1,17 +1,17 @@
-library(dplyr)
-library(lubridate)
-library(forcats)
-library(tidyr)
-library(ggplot2)
-library(waffle)
-library(extrafont)
-library(hrbrthemes)
-library(prismatic)
+library("dplyr")
+library("lubridate")
+library("forcats")
+library("tidyr")
+library("ggplot2")
+library("waffle")
+library("hrbrthemes")
+library("prismatic")
+library("extrafont")
+library("showtext")
 
-library(extrafont)
+
 loadfonts(device = "pdf", quiet = TRUE)
 
-library(showtext)
 font_add_google(name = "IBM Plex Mono", family = "IBM Plex Mono")
 showtext_auto()
 
@@ -37,7 +37,7 @@ life_data <- expand_grid(
 
 # Add "eras" to be coloured
 # "era" text can be used for annotation, and the fill colour will colour the waffle chart
-
+#"#ffeeaa","#e3dcd4" , "#6ca39d", "#866a5d"
 eras <- tribble(
   ~year_month, ~era, ~fill_colour,
   "1994,11", "childhood", "#E8C4A2FF",
@@ -45,8 +45,10 @@ eras <- tribble(
   "2013,9", "undergrad", "#DE7862FF",
   "2016,9", "masters", "#E75B64FF",
   "2017,9", "research assistant", "#278B9AFF",
-  "2018,8", "data analyst", "#5A6F80FF",
-  "2019,10", "PhD", "#4C413FFF"
+  "2018,8", "data analyst", "#6ca39d",
+  "2019,10", "PhD", "#5A6F80FF",
+  "2023,10", "postdoc #1", "#4C413FFF",
+  #"2024,6", "postdoc #2", "#866a5d"
 )
 
 # Darken fill colour to be used for text annotations
@@ -147,14 +149,15 @@ role_text <- function(x, y = role_annotations_y, label, size = roles_size, ...) 
 }
 
 life_in_months_role_annotations <- life_in_months_initial_annotations +
-  role_text(x = 13, y = 24, label = "childhood") +
-  role_text(x = 13, y = 14, label = "highschool") +
-  role_text(x = 13, y = 8, label = "undergrad") +
-  role_text(x = 13, y = 6, label = "masters") +
-  role_text(x = 13, y = 5, label = "research assistant", lineheight = annotation_lineheight - 0.25) +
-  role_text(x = 13, y = 4, label = "data analyst", lineheight = annotation_lineheight - 0.25) +
-  role_text(x = 13, y = 2, label = "PhD", lineheight = annotation_lineheight - 0.25)
+  role_text(x = 13, y = 26, label = "childhood") +
+  role_text(x = 13, y = 16, label = "highschool") +
+  role_text(x = 13, y = 10, label = "undergrad") +
+  role_text(x = 13, y = 8, label = "masters") +
+  role_text(x = 13, y = 7, label = "research assistant", lineheight = annotation_lineheight - 0.25) +
+  role_text(x = 13, y = 6, label = "data analyst", lineheight = annotation_lineheight - 0.25) +
+  role_text(x = 13, y = 4, label = "PhD", lineheight = annotation_lineheight - 0.25) +
+  role_text(x = 13, y = 1, label = "postdoc #1", lineheight = annotation_lineheight - 0.25)
 
 # Save final plot ----
 
-ggsave("life_in_months.png", plot = life_in_months_role_annotations, device = "png", type = "cairo", width = 15, height = 22.4, dpi = 300)
+ggsave("life_in_months_NEW.png", plot = life_in_months_role_annotations, device = "png", type = "cairo", width = 15, height = 25, dpi = 300)
