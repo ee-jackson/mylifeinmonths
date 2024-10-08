@@ -48,7 +48,7 @@ eras <- tribble(
   "2018,8", "data analyst", "#6ca39d",
   "2019,10", "PhD", "#5A6F80FF",
   "2023,10", "postdoc #1", "#4C413FFF",
-  #"2024,6", "postdoc #2", "#866a5d"
+  "2024,6", "postdoc #2", "#5B1A18"
 )
 
 # Darken fill colour to be used for text annotations
@@ -156,8 +156,9 @@ life_in_months_role_annotations <- life_in_months_initial_annotations +
   role_text(x = 13, y = 7, label = "research assistant", lineheight = annotation_lineheight - 0.25) +
   role_text(x = 13, y = 6, label = "data analyst", lineheight = annotation_lineheight - 0.25) +
   role_text(x = 13, y = 4, label = "PhD", lineheight = annotation_lineheight - 0.25) +
-  role_text(x = 13, y = 1, label = "postdoc #1", lineheight = annotation_lineheight - 0.25)
+  role_text(x = 13, y = 2, label = "postdoc #1", lineheight = annotation_lineheight - 0.25) +
+  role_text(x = 13, y = 1, label = "postdoc #2", lineheight = annotation_lineheight - 0.25)
 
 # Save final plot ----
 
-ggsave("life_in_months_NEW.png", plot = life_in_months_role_annotations, device = "png", type = "cairo", width = 15, height = 25, dpi = 300)
+ggsave("life_in_months.png", plot = life_in_months_role_annotations, device = "png", type = "cairo", width = 15, height = 25, dpi = 300)
